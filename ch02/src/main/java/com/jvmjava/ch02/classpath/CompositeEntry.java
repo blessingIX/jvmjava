@@ -50,8 +50,7 @@ public class CompositeEntry extends AbstractEntry {
     @Override
     public String toString() {
         return "CompositeEntry{" +
-                "data=" + Arrays.toString(data) +
-                ", entries=" + Arrays.toString(entries) +
+                "entries=" + Arrays.toString(entries) +
                 '}';
     }
 }

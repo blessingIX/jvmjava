@@ -4,7 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Arrays;
+import java.nio.file.Paths;
 import java.util.zip.ZipInputStream;
 
 public class ZipEntry extends AbstractEntry {
@@ -18,16 +18,14 @@ public class ZipEntry extends AbstractEntry {
 
     @Override
     public Entry readClass(String className) {
-        // TODO 比较文件名 className zipEntry.getName()
         File file = new File(this.absPath);
+        String normalizeClassName = Paths.get(className).normalize().toString();
 
         try (ZipInputStream in = new ZipInputStream(new FileInputStream(file))) {
             java.util.zip.ZipEntry zipEntry;
             while ((zipEntry = in.getNextEntry()) != null) {
-                if (zipEntry.isDirectory()) {
-                    continue;
-                }
-                if (className.equals(zipEntry.getName())) {
+                String normalizeZipEntryName = Paths.get(zipEntry.getName()).normalize().toString();
+                if (normalizeClassName.equals(normalizeZipEntryName)) {
                     try (ByteArrayOutputStream out = new ByteArrayOutputStream(1024)) {
                         int len;
                         byte[] buf = new byte[1024];
@@ -53,8 +51,7 @@ public class ZipEntry extends AbstractEntry {
     @Override
     public String toString() {
         return "ZipEntry{" +
-                "data=" + Arrays.toString(data) +
-                ", absPath='" + absPath + '\'' +
+                "absPath='" + absPath + '\'' +
                 '}';
     }
 }

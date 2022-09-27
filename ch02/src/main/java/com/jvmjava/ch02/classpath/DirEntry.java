@@ -1,7 +1,6 @@
 package com.jvmjava.ch02.classpath;
 
 import java.io.*;
-import java.util.Arrays;
 
 public class DirEntry extends AbstractEntry {
 
@@ -24,8 +23,7 @@ public class DirEntry extends AbstractEntry {
             }
             this.data = out.toByteArray();
         } catch (IOException e) {
-//            e.printStackTrace();
-            return this;
+            e.printStackTrace();
         }
         return this;
     }
@@ -38,8 +36,7 @@ public class DirEntry extends AbstractEntry {
     @Override
     public String toString() {
         return "DirEntry{" +
-                "data=" + Arrays.toString(data) +
-                ", absDir='" + absDir + '\'' +
+                "absDir='" + absDir + '\'' +
                 '}';
     }
 

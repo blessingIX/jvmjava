@@ -3,6 +3,7 @@ package com.jvmjava.ch02.classpath;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 public class WildcardEntry extends CompositeEntry {
 
@@ -24,16 +25,11 @@ public class WildcardEntry extends CompositeEntry {
         }
     }
 
-//    @Override
-//    public Entry readClass(String className) {
-//        // walk directory
-//        return null;
-//    }
-
     @Override
-    public String string() {
-        return null;
+    public String toString() {
+        return "WildcardEntry{" +
+                "entries=" + Arrays.toString(entries) +
+                '}';
     }
-
 
 }

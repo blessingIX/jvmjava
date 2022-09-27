@@ -28,8 +28,7 @@ public class Main {
         System.out.printf("classpath:%s\nclass:%s\nargs:%s%n", classpath, cmd.clazz, Arrays.toString(cmd.args));
         String className = cmd.clazz.replace(".", File.separator);
         Entry entry = classpath.readClass(className);
-        System.out.printf("class data:%s%n", entry.getData());
-        System.out.printf("class data length:%s%n", entry.getData().length);
+        System.out.println(entry);
     }
 
 }
