@@ -1,7 +1,10 @@
 package com.jvmjava.ch03.classfile;
 
-import com.jvmjava.ch03.uint.Uint16;
-import com.jvmjava.ch03.uint.Uint32;
+import com.jvmjava.ch03.classfile.attributeinfo.AttributeInfo;
+import com.jvmjava.ch03.classfile.attributeinfo.MemberInfo;
+import com.jvmjava.ch03.classfile.constantinfo.ConstantPool;
+import com.jvmjava.ch03.struct.Uint16;
+import com.jvmjava.ch03.struct.Uint32;
 
 /**
  * ClassFile结构反映了Java虚拟机规范定义的class文件格式
@@ -40,14 +43,14 @@ public class ClassFile {
     public void read(ClassReader reader) {
         this.readAndCheckMagic(reader);
         this.readAndCheckVersion(reader);
-//        this.constantPool = readConstantPool(reader);
+        this.constantPool = ConstantPool.readConstantPool(reader);
         this.accessFlags = reader.readUint16();
         this.thisClass = reader.readUint16();
         this.superClass = reader.readUint16();
         this.interfaces = reader.readUint16s();
-//        this.fields = readMebers(reader, this.constantPool);
-//        this.methods = readMembers(reader, this.constantPool);
-//        this.attributes = readAttributes(reader, this.constantPool);
+        this.fields = MemberInfo.readMembers(reader, this.constantPool);
+        this.methods = MemberInfo.readMembers(reader, this.constantPool);
+        this.attributes = AttributeInfo.readAttributes(reader, this.constantPool);
     }
 
     public void readAndCheckMagic(ClassReader reader) {

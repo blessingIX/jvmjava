@@ -1,9 +1,9 @@
 package com.jvmjava.ch03.classfile;
 
-import com.jvmjava.ch03.uint.Uint16;
-import com.jvmjava.ch03.uint.Uint32;
-import com.jvmjava.ch03.uint.Uint64;
-import com.jvmjava.ch03.uint.Uint8;
+import com.jvmjava.ch03.struct.Uint16;
+import com.jvmjava.ch03.struct.Uint32;
+import com.jvmjava.ch03.struct.Uint64;
+import com.jvmjava.ch03.struct.Uint8;
 
 public class ClassReader {
 

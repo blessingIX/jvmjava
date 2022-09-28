@@ -1,5 +1,7 @@
 package com.jvmjava.ch03;
 
+import com.jvmjava.ch03.classfile.ClassFile;
+import com.jvmjava.ch03.classfile.attributeinfo.MemberInfo;
 import com.jvmjava.ch03.classpath.Classpath;
 import com.jvmjava.ch03.classpath.Entry;
 
@@ -24,11 +26,34 @@ public class Main {
     }
 
     static void startJVM(Cmd cmd) {
-        Classpath classpath = Classpath.parse(cmd.XjreOption, cmd.cpOption);
-        System.out.printf("classpath:%s\nclass:%s\nargs:%s%n", classpath, cmd.clazz, Arrays.toString(cmd.args));
+        Classpath cp = Classpath.parse(cmd.XjreOption, cmd.cpOption);
+        System.out.printf("cp:%s\nclass:%s\nargs:%s%n", cp, cmd.clazz, Arrays.toString(cmd.args));
         String className = cmd.clazz.replace(".", File.separator);
-        Entry entry = classpath.readClass(className);
-        System.out.println(entry);
+        ClassFile cf = loadClass(className, cp);
+        System.out.println(cmd.clazz);
+        printClassInfo(cf);
+    }
+
+    static ClassFile loadClass(String className, Classpath cp) {
+        Entry entry = cp.readClass(className);
+        return ClassFile.parse(entry.getData());
+    }
+
+    static void printClassInfo(ClassFile cf) {
+        System.out.printf("version: %d.%d%n", cf.majorVersion().toInt(), cf.majorVersion().toInt());
+        System.out.printf("constant count: %d%n", cf.constantPool().len());
+        System.out.printf("access flags: %s%n", Integer.toHexString(cf.accessFlags().toInt()));
+        System.out.printf("this class: %s%n", cf.className());
+        System.out.printf("super class: %s%n", cf.superClassName());
+        System.out.printf("interfaces: %s%n", Arrays.toString(cf.interfaceNames()));
+        System.out.printf("fields count: %d%n", cf.fields() == null ? 0 : cf.fields().length);
+        for (MemberInfo field : cf.fields()) {
+            System.out.printf("%s%n", field.name());
+        }
+        System.out.printf("methods count: %d%n", cf.methods() == null ? 0 : cf.methods().length);
+        for (MemberInfo method : cf.methods()) {
+            System.out.printf("%s%n", method.name());
+        }
     }
 
 }
