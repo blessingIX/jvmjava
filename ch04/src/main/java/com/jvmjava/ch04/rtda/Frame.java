@@ -13,4 +13,12 @@ public class Frame {
         this.operandStack = OperandStack.newOperandStack(maxStack);
     }
 
+    public LocalVars getLocalVars() {
+        return localVars;
+    }
+
+    public OperandStack getOperandStack() {
+        return operandStack;
+    }
+
 }

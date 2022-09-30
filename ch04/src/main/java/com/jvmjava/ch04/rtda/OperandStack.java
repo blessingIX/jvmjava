@@ -12,7 +12,11 @@ public class OperandStack {
 
     public static OperandStack newOperandStack(int maxStack) {
         if (maxStack > 0) {
-            return new OperandStack(new Slot[maxStack]);
+            Slot[] slots = new Slot[maxStack];
+            for (int i = 0; i < slots.length; i++) {
+                slots[i] = new Slot();
+            }
+            return new OperandStack(slots);
         }
         return null;
     }

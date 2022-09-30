@@ -10,7 +10,11 @@ public class LocalVars {
 
     public static LocalVars newLocalVars(int maxLocals) {
         if (maxLocals > 0) {
-            return new LocalVars(new Slot[maxLocals]);
+            Slot[] slots = new Slot[maxLocals];
+            for (int i = 0; i < slots.length; i++) {
+                slots[i] = new Slot();
+            }
+            return new LocalVars(slots);
         }
         return null;
     }

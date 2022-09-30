@@ -4,8 +4,10 @@ import com.jvmjava.ch04.classfile.ClassFile;
 import com.jvmjava.ch04.classfile.attributeinfo.MemberInfo;
 import com.jvmjava.ch04.classpath.Classpath;
 import com.jvmjava.ch04.classpath.Entry;
+import com.jvmjava.ch04.rtda.Frame;
+import com.jvmjava.ch04.rtda.LocalVars;
+import com.jvmjava.ch04.rtda.OperandStack;
 
-import java.io.File;
 import java.util.Arrays;
 
 public class Main {
@@ -26,12 +28,9 @@ public class Main {
     }
 
     static void startJVM(Cmd cmd) {
-        Classpath cp = Classpath.parse(cmd.XjreOption, cmd.cpOption);
-        System.out.printf("cp:%s\nclass:%s\nargs:%s%n", cp, cmd.clazz, Arrays.toString(cmd.args));
-        String className = cmd.clazz.replace(".", File.separator);
-        ClassFile cf = loadClass(className, cp);
-        System.out.println(cmd.clazz);
-        printClassInfo(cf);
+        Frame frame = new Frame(100, 100);
+        testLocalVars(frame.getLocalVars());
+        testOperandStack(frame.getOperandStack());
     }
 
     static ClassFile loadClass(String className, Classpath cp) {
@@ -54,6 +53,40 @@ public class Main {
         for (MemberInfo method : cf.methods()) {
             System.out.printf("%s%n", method.name());
         }
+    }
+
+    static void testLocalVars(LocalVars vars) {
+        vars.setInd(0, 100);
+        vars.setInd(1, -100);
+        vars.setLong(2, 2997924580L);
+        vars.setLong(4, -2997924580L);
+        vars.setFloat(6, 3.1415926F);
+        vars.setDouble(7, 2.71828182845);
+        vars.setRef(9, null);
+        System.out.println(vars.getInt(0));
+        System.out.println(vars.getInt(1));
+        System.out.println(vars.getLong(2));
+        System.out.println(vars.getLong(4));
+        System.out.println(vars.getFloat(6));
+        System.out.println(vars.getDouble(7));
+        System.out.println(vars.getRef(9));
+    }
+
+    static void testOperandStack(OperandStack ops) {
+        ops.pushInt(100);
+        ops.pushInt(-100);
+        ops.pushLong(2997924580L);
+        ops.pushLong(-2997924580L);
+        ops.pushFloat(3.1415926F);
+        ops.pushDouble(2.71828182845);
+        ops.pushRef(null);
+        System.out.println(ops.popRef());
+        System.out.println(ops.popDouble());
+        System.out.println(ops.popFloat());
+        System.out.println(ops.popLong());
+        System.out.println(ops.popLong());
+        System.out.println(ops.popInt());
+        System.out.println(ops.popInt());
     }
 
 }
